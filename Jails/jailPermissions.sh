@@ -4,3 +4,10 @@
 # create media user and group
 # update the service
 # 
+# Test this out
+iocage exec sonarr  service sonarr onestop
+iocage exec sonarr "pw user add media -c media -u 8675309 -d /nonexistent -s /usr/bin/nologin"
+iocage exec sonarr "pw groupadd -n media -g 8675309"
+iocage exec sonarr "pw groupmod media -m sonarr"
+iocage exec sonarr chown -R media:media /usr/local/share/NzbDrone /config
+iocage exec sonarr  sysrc 'sonarr_user=media'
