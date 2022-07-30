@@ -24,3 +24,13 @@ freenas% sudo iocage exec qbittorrent_1 "find / -user qbittorrent"
 find . -name "*foo"
 # However, if you want a picture:
 tree -P "*foo"
+
+
+dump
+
+iocage exec qbittorrent_1  service qbittorrent onestop
+iocage exec qbittorrent_1 "pw user add media -c media -u 8675309 -d /nonexistent -s /usr/bin/nologin"
+iocage exec qbittorrent_1 "pw groupadd -n media -g 8675309"
+iocage exec qbittorrent_1 "pw groupmod media -m qbittorrent"
+iocage exec qbittorrent_1 chown -R media:media /usr/local/share/NzbDrone /config
+iocage exec qbittorrent_1  sysrc 'qbittorrent_user=media'
