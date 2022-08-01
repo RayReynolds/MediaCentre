@@ -7,7 +7,7 @@ export server=qbittorrent
 iocage exec $jail "service ${server} onestop"
 iocage exec $jail "pw user add media -c media -u 8675309 -d /nonexistent -s /usr/bin/nologin"
 iocage exec $jail "pw groupadd -n media -g 8675309"
-iocage exec $jail "pw groupmod media -m ${jail}"
+iocage exec $jail "pw groupmod media -m ${server}"
 iocage exec $jail "find / -user ${server} -exec chown media:wheel {} \;"
 iocage exec $jail  "sysrc '${server}_user=media'"
 
