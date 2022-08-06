@@ -8,4 +8,27 @@ iocage console openvpn
 nano /etc/rc.conf
 cat /var/log/openvpn.log
 
-openvpn --cd /usr/local/etc/openvpn --config uk-lon-mp001.prod.surfshark.com_udp.ovpn --ping-restart 10 --verb 4
+
+
+# Steps
+# get openvpn config files (has credential file included)
+cp -R /mnt/Volume_8/Misc/vpn_new/config/ /mnt/Volume_8/iocage/jails/openvpn_create/root/usr/local/etc/openvpn/
+
+iocage console openvpn_create
+pkg install -y openvpn nano
+
+# Test
+openvpn --cd /usr/local/etc/openvpn --config uk-lon-st003.prod.surfshark.com_tcp.ovpn --ping-restart 240 --verb 4
+
+nano /etc/rc.conf
+# '''
+openvpn_enable=NO #YES
+openvpn_configfile=/usr/local/etc/openvpn/uk-lon-st003.prod.surfshark.com_tcp.ovpn
+openvpn_flags='--ping-restart 240 --verb 4 --log-append /var/log/openvpn.log'
+rtsold_enable="YES"
+ifconfig_epair0b_ipv6="inet6 auto_linklocal accept_rtadv autoconf"
+# '''
+
+# restart jail
+
+# figure out how to communicate with this jail once it is on vpn
