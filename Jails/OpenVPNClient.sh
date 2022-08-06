@@ -14,7 +14,7 @@ cat /var/log/openvpn.log
 # get openvpn config files (has credential file included)
 cp -R /mnt/Volume_8/Misc/vpn_new/config/ /mnt/Volume_8/iocage/jails/openvpn_create/root/usr/local/etc/openvpn/
 
-iocage console openvpn_create
+iocage console openvpn_create -f
 pkg install -y openvpn nano
 
 # Test
@@ -30,5 +30,6 @@ ifconfig_epair0b_ipv6="inet6 auto_linklocal accept_rtadv autoconf"
 # '''
 
 # restart jail
-
+iocage stop openvpn_create
+iocage start openvpn_create
 # figure out how to communicate with this jail once it is on vpn
