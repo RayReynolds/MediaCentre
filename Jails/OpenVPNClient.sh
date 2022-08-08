@@ -12,14 +12,20 @@ sudo -i # we need to be root
 #   auth-user-pass /usr/local/etc/openvpn/login.conf
 #   route 192.168.0.0 255.255.255.0 net_gateway
 
-cp -R /mnt/Volume_8/Misc/vpn_new/config/ /mnt/Volume_8/iocage/jails/openvpn_create/root/usr/local/etc/openvpn/
+mkdir -p /mnt/Volume_8/iocage/jails/jackett_openvpn/root/usr/local/etc/openvpn
+cp -R /mnt/Volume_8/Misc/vpn_new/config/ /mnt/Volume_8/iocage/jails/jackett_openvpn/root/usr/local/etc/openvpn/
 
-iocage console openvpn_create -f
+
+iocage console jackett_openvpn -f
 pkg install -y openvpn nano
+
+# not sure about this. tun0 or tun256 default(?)
+ifconfig tun create
 
 # Test
 openvpn --cd /usr/local/etc/openvpn --config uk-lon-st003.prod.surfshark.com_tcp.ovpn --ping-restart 240 --verb 4
 
+# make this config work every boot
 nano /etc/rc.conf
 # '''
 openvpn_enable=YES #NO #YES
@@ -30,6 +36,10 @@ ifconfig_epair0b_ipv6="inet6 auto_linklocal accept_rtadv autoconf"
 # '''
 
 # restart jail
-iocage stop openvpn_create
-iocage start openvpn_create
-# figure out how to communicate with this jail once it is on vpn
+iocage stop jackett_openvpn
+iocage start jackett_openvpn
+
+# test
+ping 192.168.0.50
+ping 1337x.to
+
