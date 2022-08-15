@@ -19,8 +19,8 @@ cp -R /mnt/Volume_8/Misc/vpn_new/config/ /mnt/Volume_8/iocage/jails/jackett_open
 iocage console jackett_openvpn -f
 pkg install -y openvpn nano
 
-# not sure about this. tun0 or tun256 default(?)
-ifconfig tun create
+# You have to restart TrueNAS server when you enable tun on the jail
+# ifconfig tun create
 
 # Test
 openvpn --cd /usr/local/etc/openvpn --config uk-lon-st003.prod.surfshark.com_tcp.ovpn --ping-restart 240 --verb 4
